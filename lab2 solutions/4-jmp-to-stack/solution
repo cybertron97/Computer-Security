@@ -1,0 +1,13 @@
+There are two potental targets in this buffer attack.
+
+The first is the return address.  In this problem, there are 0x100 number of characters in the 
+buffer which is 256 characters.  And there are 0x10 number (16) of characters in the frame pointer
+($ebp).  This means we have to overwrite 272 characters and then insert our new return address
+as a hex address written backwards (as in part 3).  The moment return; is called it will jump 
+to that specified address in the code.
+
+The second is the actual buffer itself.  In this problem there are 0x100 number of characters
+to write in our buffer.  If we cleverly made byte-wise hex Assembly code in this buffer and 
+overwrite the return address to jump to this location, then we can jump to the stack and
+perform our own malicious code.
+

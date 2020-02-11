@@ -1,0 +1,19 @@
+If we cannot overwrite the return address, there is one more thing
+we can do to perform a buffer overflow.  That is with the frame pointer.
+The frame pointer is responsible for figuring out the location of the
+local variables.  If we were to overwrite this then we can destroy what
+values are being accessed.
+
+In this problem, there are 3 functions called, main, start, and vuln.
+vuln is the one that reads in a specified number of characters (0x128)
+and then tries to put it into the buffer.  After this, if we were to fill this buffer
+up and then change the next 16 characters of the ebp pointer, it would not do
+anything as there are no other operations to be done in this function.  It
+seems like there is nothing that we can do to disrupt the ebp pointer in this function.  
+
+However, note below is the next frame for start and below that is main, 
+if we know what variables are in start and main (and how large we are), we 
+can overwrite all of the non-return address data and then go down to main() function's 
+ebp pointer and change that.  Changing the ebp pointer here affects what the value of $eax
+has on address 0x08048484 which will disrupt what is going on in the main.  Thus
+we can still have a buffer overflow problem without changing the return address.
